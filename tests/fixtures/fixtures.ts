@@ -14,7 +14,7 @@ export const test = base.extend<MyFixtures>({
     // Set up the fixture.
     const mainPage = new MainPage(page);
     await mainPage.open();
-    await mainPage.closeModal()
+    //await mainPage.closeModal()
 
     // Use the fixture value in the test.
     await use(mainPage);

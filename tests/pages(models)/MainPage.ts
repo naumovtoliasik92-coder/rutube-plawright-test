@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
 import { BasePage } from './BasePage';
 
 export class MainPage extends BasePage {
@@ -11,6 +11,9 @@ export class MainPage extends BasePage {
     private readonly headerAddButtonPopupLocator: Locator;
     private readonly headerNotificationsPopupLocator: Locator;
     private readonly authorizationModalLocator: Locator;
+    private readonly menuButtonLocator: Locator;
+    private readonly openMenuAriatLocator: Locator;
+    private readonly changeThemeButtonLocator: Locator
 
     constructor (page: Page){
         super(page);
@@ -24,6 +27,9 @@ export class MainPage extends BasePage {
         this.headerAddButtonPopupLocator = this.page.locator('.freyja_char-header-video-menu__list_PVuar');
         this.headerNotificationsPopupLocator = this.page.locator('.wdp-notifications-popup-module__wrapper');
         this.authorizationModalLocator = this.page.locator('iframe[title="Multipass"]').contentFrame().locator('div[role="form"]')
+        this.menuButtonLocator = this.page.getByRole('button', { name: 'Открыть меню навигации' }) 
+        this.openMenuAriatLocator = this.page.locator('.menu-content-module__menuOpen')  
+        this.changeThemeButtonLocator = this.page.getByRole('button', { name: 'Переключить на светлую тему' })
     } 
 
     async open() {
@@ -45,15 +51,15 @@ export class MainPage extends BasePage {
     } 
 
     async openAddPopupList () {
-        this.headerAddButtonLocator.click()
+        await this.headerAddButtonLocator.click();
     }
     
     async openNotificationPopupList () {
-        this.headerNotificationsButtonLocator.click()
+        await this.headerNotificationsButtonLocator.click();
     }
 
     async openAuthorizationModal () {
-        this.headerLoginButtonLocator.click()
+        await this.headerLoginButtonLocator.click();
     }
 
     async addPopupListHasCorrectAriaSnapshot() {
@@ -68,6 +74,30 @@ export class MainPage extends BasePage {
     async authorizationModalHasCorrectAriaSnapshot() {
         await expect(this.authorizationModalLocator).toMatchAriaSnapshot({
             name: 'authorizationModal.yml'});
+    }
+
+    async openFullMenu () {
+        await this.menuButtonLocator.click();
+        await expect(this.openMenuAriatLocator).toBeVisible();
+    }
+
+    async menuFullHasCorrectAriaSnapshot() {
+        await expect(this.openMenuAriatLocator).toBeVisible();
+        const menuList = this.openMenuAriatLocator.getByRole('list').first();
+        await expect(menuList).toBeVisible();
+        await expect(menuList.getByRole('link', { name: 'Главная' })).toBeVisible();
+        await expect(menuList.getByRole('link', { name: 'Авто' })).toBeVisible();
+        await expect(menuList.getByRole('link', { name: 'Моё' })).toBeVisible();
+        await expect(menuList).toMatchAriaSnapshot({
+            name: 'FullMenuSnapshot.yml'});
+    }
+
+    async changeThemeToWhite() {
+        await this.changeThemeButtonLocator.click()
+    }
+
+    async checkThemeAttributeValue(attributeValue: 'dark2021' | 'white2022' ) {
+        await expect(this.page.locator('html')).toHaveAttribute('data-pen-theme', attributeValue);
     }
 }
 
