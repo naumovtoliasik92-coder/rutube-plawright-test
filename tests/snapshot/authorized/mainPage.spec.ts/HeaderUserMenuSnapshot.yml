@@ -1,0 +1,22 @@
+- link "Иконка канала channel77108156 channel77108156":
+  - /url: /profile/info/
+  - img "Иконка канала channel77108156":
+    - img "Иконка канала channel77108156"
+  - text: ""
+  - img
+- list:
+  - listitem:
+    - link "Профиль":
+      - /url: /profile/
+      - paragraph: Профиль
+  - listitem:
+    - link "Мой канал":
+      - /url: /channel/77108156/
+      - paragraph: Мой канал
+  - listitem:
+    - link "Студия RUTUBE":
+      - /url: https://studio.rutube.ru/
+      - paragraph: Студия RUTUBE
+- button "Выйти":
+  - img
+  - text: ""

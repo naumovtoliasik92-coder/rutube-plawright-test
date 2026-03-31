@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export class BasePage {
     static closeModal() {
@@ -12,5 +12,11 @@ export class BasePage {
 
      async closeModal () {
         await this.page.getByRole('button', { name: 'Закрыть' }).click();
+    }
+
+    protected async checkAriaSnapshot(locator: Locator, ariaName: string) {
+     await expect(locator).toMatchAriaSnapshot({
+            name: ariaName
+        });
     }
 }
