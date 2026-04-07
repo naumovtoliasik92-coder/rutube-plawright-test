@@ -1,10 +1,12 @@
 import { test as base } from '@playwright/test';
 import { MainPage } from '../pages(models)/MainPage';
+import { CategoriesPage } from '../pages(models)/CategoriesPage';
 
 
 // Declare the types of your fixtures.
 type MyFixtures = {
-    mainPage: MainPage
+    mainPage: MainPage;
+    categoriesPage: CategoriesPage;
 };
 
 // Extend base test by providing "todoPage" and "settingsPage".
@@ -20,8 +22,14 @@ export const test = base.extend<MyFixtures>({
     await use(mainPage);
   },
 
-  settingsPage: async ({ page }, use) => {
-    await use(new SettingsPage(page));
+  categoriesPage: async ({page}, use) => {
+        const categoriesPage = new CategoriesPage(page);
+        await categoriesPage.open();
+        await categoriesPage.closeModal();
+        await categoriesPage.closeCoockiAllert();
+        await categoriesPage.hideHeader();
+
+        await use(categoriesPage);
   },
 });
 export { expect } from '@playwright/test';
