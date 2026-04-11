@@ -10,7 +10,7 @@ constructor(page:Page) {
 }
 
     async open() {
-        this.page.goto('https://rutube.ru/categories/');
+        await this.page.goto('https://rutube.ru/categories/');
     }
     async closeModal() {
         await this.page.getByRole('button', { name: 'Закрыть попап' }).click();     

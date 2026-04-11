@@ -19,8 +19,8 @@ export class BasePage {
             name: ariaName
         });
     }
-    protected async checkLayoutByScreenshot (Locator: Locator, screnshotName: string) {
-        await expect(Locator).toHaveScreenshot(screnshotName)
+    protected async checkLayoutByScreenshot (locator: Locator, screenshotName: string) {
+        await expect(locator).toHaveScreenshot(screenshotName)
     }
     protected async hideElement(selector: string) {
          await this.page.evaluate((selector) => {
